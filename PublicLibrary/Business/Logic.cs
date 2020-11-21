@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PublicLibrary
+namespace PublicLibrary.Business
 {
-    class Program
+    class Logic
     {
-        static void Main(string[] args)
-        {
-
-        }
     }
 }

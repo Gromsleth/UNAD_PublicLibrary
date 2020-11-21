@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PublicLibrary
+namespace PublicLibrary.Presentation
 {
-    class Program
+    public class View
     {
-        static void Main(string[] args)
-        {
 
-        }
     }
 }
