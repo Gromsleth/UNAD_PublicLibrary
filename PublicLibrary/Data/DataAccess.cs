@@ -5,7 +5,8 @@ using System.Text;
 
 namespace PublicLibrary.Data
 {
-    class DataAccess
+    public class DataAccess
     {
+
     }
 }

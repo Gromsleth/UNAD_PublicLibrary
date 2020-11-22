@@ -5,7 +5,13 @@ using System.Text;
 
 namespace PublicLibrary.Business
 {
-    class Logic
+    public class Logic
     {
+
+        public Logic()
+        {
+
+        }
+        
     }
 }
