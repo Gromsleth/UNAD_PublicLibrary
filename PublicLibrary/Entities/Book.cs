@@ -15,5 +15,14 @@ namespace PublicLibrary.Entities
 
         public int Quantity { get; set; }
 
+        public string ForData()
+        {
+            return String.Format("{0}|{1}|{2}|{3}", ReferenceId, Quantity, Title, Author);
+        }
+
+        public string ForList()
+        {
+            return String.Format(" | {0} | {1} | {2} | {3} |\n", ReferenceId.ToString().PadLeft(10, ' '), Quantity.ToString().PadLeft(10, ' '), Title.PadLeft(50, ' '), Author.PadLeft(50, ' '));
+        }
     }
 }
