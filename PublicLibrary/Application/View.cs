@@ -50,6 +50,9 @@ namespace PublicLibrary.Application
             _options.Add("    **                                                                      **");
             _options.Add("    **   1. Registro de libros.                                             **");
             _options.Add("    **   2. Imprimir Listado de libros.                                     **");
+            _options.Add("    **   3. Listar libros de mayor a menor cantidad.                        **");
+            _options.Add("    **   4. Listar libros de menor a mayor cantidad.                        **");
+            _options.Add("    **   5. Consultar Libros por autor.                                     **");
             _options.Add("    **                                                                      **");
             _options.Add("    **   0. Guardar y Salir.                                                **");
             _options.Add("    **                                                                      **");
@@ -119,8 +122,8 @@ namespace PublicLibrary.Application
             {
                 _options.Add("    **                                                                      **");
                 _options.Add("    ** o presione:                                                          **");
-                _options.Add("    ** 'E' para salir                                                       **");
-                _options.Add("    ** 'R' para volver                                                      **");
+                _options.Add("    ** 'R' para volver al menú principal                                    **");
+                _options.Add("    ** 'E' para salir de la aplicación                                      **");
             }
             _options.Add("    **                                                                      **");
 
@@ -147,7 +150,43 @@ namespace PublicLibrary.Application
             DrawInterface();
         }
 
-        public void GetBookList(List<Book> books)
+        public void FilterAuthor(int iErr = 0)
+        {
+            _options.Clear();
+            _options.Add("    ** Consulta de libros por autor.                                        **");
+            _options.Add("    **                                                                      **");
+
+            _options.Add("    ** Por favor ingrese el autor                                           **");
+            _options.Add("    ** No es necesario ingresar el nombre del autor completo,               **");
+            _options.Add("    ** la búsqueda se realiza por coincidencias                             **");
+            _options.Add("    ** de los caracteres ingresados.                                        **");
+            sAux = "    Autor: ";
+
+            _options.Add("    **                                                                      **");
+            _options.Add("    ** o presione:                                                          **");
+            _options.Add("    ** 'R' para volver al menú principal                                    **");
+            _options.Add("    ** 'E' para salir de la aplicación                                      **");
+
+            _options.Add("    **                                                                      **");
+
+            _request.Clear();
+            switch (iErr)
+            {
+                case -1: //Ingresar menos de dos caracteres
+                    _request.Add("    ¡Por favor ingrese más de un carácter para realizar la consulta¡ \n");
+                    break;
+                case -2: //No hay resultados para la consulta
+                    _request.Add("    ¡No hay libros que cumplan con el filtro ingresado¡ \n");
+                    break;
+                default:
+                    break;
+            }
+            _request.Add(sAux);
+
+            DrawInterface();
+        }
+
+        public void GetBookList(List<Book> books, int opt)
         {
             Console.WindowWidth = 140;
             string ReferenceId = "Referencia";
@@ -158,7 +197,24 @@ namespace PublicLibrary.Application
             //string sAuxSep2 = "_";
             _options.Clear();
             _request.Clear();
-            _options.Add("    ** Listado de Libros                                                    **");
+            switch (opt)
+            {
+                case 0: 
+                    _options.Add("    ** Listado de Libros                                                    **");
+                    break;
+                case 1: 
+                    _options.Add("    ** Listado de Libros de mayor a menor cantidad                          **");
+                    break;
+                case 2: 
+                    _options.Add("    ** Listado de Libros de menor a mayor cantidad                          **");
+                    break;
+                case 3: 
+                    _options.Add("    ** Listado de Libros filtrados por autor                                **");
+                    break;
+                default:
+                    break;
+            }
+            
             _options.Add("    **                                                                      **");
             _options.Add("    ** Presione cualquier tecla para continuar:                             **");
             _options.Add("    **                                                                      **");

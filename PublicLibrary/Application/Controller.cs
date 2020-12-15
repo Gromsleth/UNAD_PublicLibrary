@@ -17,12 +17,14 @@ namespace PublicLibrary.Application
         Book bookToInsert;
         DataAccess _DA;
         string rta;
+        List<Book> FilteredList;
 
         public Controller()
         {
             _UI = new View();
             _DA = new DataAccess();
             bookToInsert = new Book();
+            FilteredList = new List<Book>();
         }
 
         public void Execute()
@@ -39,6 +41,15 @@ namespace PublicLibrary.Application
                         break;
                     case 2: //Imprimir Listado de libros
                         ini = BookList();
+                        break;
+                    case 3: //Ordenar los libros por cantidad de mayor a menor
+                        ini = HighToLow();
+                        break;
+                    case 4: //Ordenar los libros por cantidad de menor a mayor
+                        ini = LowToHigh();
+                        break;
+                    case 5: //Consultar por autor
+                        ini = BookByAuthor();
                         break;
                     default:
                         bErr = true;
@@ -177,7 +188,70 @@ namespace PublicLibrary.Application
             if (_DA.GetBooks().Count == 0)
                 bNoBook = true;
 
-            _UI.GetBookList(_DA.GetBooks());
+            _UI.GetBookList(_DA.GetBooks(), 0);
+            return true;
+        }
+
+        public bool HighToLow()
+        {
+            if (_DA.GetBooks().Count == 0)
+                bNoBook = true;
+            
+            _UI.GetBookList(_DA.GetBooks().OrderByDescending(order => order.Quantity).ToList(), 1);
+            return true;
+        }
+
+        public bool LowToHigh()
+        {
+            if (_DA.GetBooks().Count == 0)
+                bNoBook = true;
+
+            _UI.GetBookList(_DA.GetBooks().OrderBy(order => order.Quantity).ToList(), 2);
+            return true;
+        }
+
+        public bool BookByAuthor()
+        {
+            iAux = 0;
+
+            if (_DA.GetBooks().Count == 0)
+                bNoBook = true;
+
+            do
+            {
+                FilteredList.Clear();
+                ini = true;
+                _UI.FilterAuthor(iAux);
+                rta = Console.ReadLine().Trim().ToUpper();
+
+                if (rta == "E")
+                    return false;
+                if (rta == "R")
+                    return true;
+
+                if (rta.Length > 1)
+                {
+                    foreach (var book in _DA.GetBooks()
+                          .OrderBy(s => s.Author)
+                          .ToList())
+                    {
+                        if (book.Author.ToUpper().Contains(rta.ToUpper()))
+                            FilteredList.Add(book);
+                    }
+
+                    if (FilteredList.Count > 0)
+                    {
+                        //ini = false;
+                        _UI.GetBookList(FilteredList.OrderBy(order => order.Quantity).ToList(), 3);
+                    }
+                    else
+                        iAux = -2;
+                }
+                else
+                    iAux = -1;
+
+            } while (ini);
+
             return true;
         }
 
